@@ -20,13 +20,15 @@ module "test_vpc_module" {
   subnets = [
     {
       subnet_name   = "primary-subnet-01"
-      subnet_ip     = "10.10.11.0/27"
+      subnet_ip     = "10.10.11.0/24"
       subnet_region = var.region
+      subnet_private_access = "true"
     },
     {
       subnet_name   = "dr-subnet-01"
-      subnet_ip     = "10.10.21.0/27"
+      subnet_ip     = "10.10.21.0/24"
       subnet_region = "us-central1"
+      subnet_private_access = "true"
     }
   ]
 }
