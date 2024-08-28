@@ -2,9 +2,10 @@
 
 ## Create Snapshot schedule
 ```
-vault write sys/storage/raft/snapshot-auto/config/hourly interval="1h" retain=24 path_prefix="/opt/vault/snapshots/" storage_type="local" local_max_space=10000000
+vault write sys/storage/raft/snapshot-auto/config/hourly interval="1h" retain=24 file_prefix="PROD" path_prefix="/opt/vault/snapshots/" storage_type="local" local_max_space=10000000
 vault list sys/storage/raft/snapshot-auto/config
 vault read sys/storage/raft/snapshot-auto/config/hourly
+vault delete sys/storage/raft/snapshot-auto/config/hourly
 ```
 
 # Primary
