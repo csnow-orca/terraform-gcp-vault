@@ -8,20 +8,20 @@ vault read sys/storage/raft/snapshot-auto/config/hourly
 vault delete sys/storage/raft/snapshot-auto/config/hourly
 ```
 
-# Primary
+## Primary
 ```
 vault write -f sys/replication/dr/primary/enable
 
 vault write sys/replication/dr/primary/secondary-token id=secondary
 ```
 
-# Secondary
+## Secondary
 ```
 vault write sys/replication/dr/secondary/enable token=<TOKEN>
 
 vault read -format=json sys/replication/dr/status
 ```
-# Primary Failover policy
+## Primary Failover policy
 ```
 vault policy write     dr-secondary-promotion - <<EOF
 path "sys/replication/dr/secondary/promote" {
@@ -40,33 +40,35 @@ path "sys/storage/raft/autopilot/state" {
 }
 EOF
 ```
-# Primary Create Batch Token
+## Primary Create Batch Token
 ```
 vault write auth/token/roles/failover-handler allowed_policies=dr-secondary-promotion orphan=true renewable=false token_type=batch
 
 vault token create -role=failover-handler -ttl=8h | tee batch.txt
 ```
 
-# Secondary promote it to Primary
+## Secondary promote it to Primary
 ```
 vault write sys/replication/dr/secondary/promote dr_operation_token=<DR_TOKEN>
 ```
-# Primary Demote Primary
+## Primary Demote Primary
 ```
 vault write -f sys/replication/dr/primary/demote
 ```
 
-# Secondary setup replication back to primary
+## Secondary setup replication back to primary
 ```
 vault write sys/replication/dr/primary/secondary-token id=new-secondary
 ```
 
-# Primary Setup replication back to original primary
+## Primary Setup replication back to original primary
 ```
 vault write sys/replication/dr/secondary/update-primary dr_operation_token=<DR_TOKEN> token=<TOKEN>
 ```
 
-# Primary Disable replication to make a different cluster DR
+# This command is only if you are not going to have a DR replica.
+
+## Primary Disable replication to make a different cluster DR
 ```
 vault write -f sys/replication/dr/primary/disable
 ```
