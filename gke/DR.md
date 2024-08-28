@@ -66,8 +66,7 @@ vault write sys/replication/dr/primary/secondary-token id=new-secondary
 vault write sys/replication/dr/secondary/update-primary dr_operation_token=<DR_TOKEN> token=<TOKEN>
 ```
 
-# This command is only if you are not going to have a DR replica.
-
+## This command is only if you are not going to have a DR replica.
 ## Primary Disable replication to make a different cluster DR
 ```
 vault write -f sys/replication/dr/primary/disable
