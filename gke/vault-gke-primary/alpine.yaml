@@ -21,4 +21,11 @@ spec:
   - name: alpinepod-1
     command: ["/bin/ash", "-c", "trap : TERM INT; sleep infinity & wait"]
     image: alpine
-
+    readinessProbe:
+      exec:
+        command:
+          - /bin/ash
+          - -c
+          - "echo ready"
+      initialDelaySeconds: 5
+      periodSeconds: 10
